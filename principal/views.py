@@ -234,7 +234,7 @@ def profesor_miperfil2(request):
     profesor=request.user
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     profesor2=Profesor.objects.get(cve_usuario=profesor)
-    grupos=MateriaImpartidaEnGrupo.objects.filter(profesor=profesor)
+    grupos=MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     return render_to_response('profesor/mi-perfil2.html',locals(),context_instance=RequestContext(request))
 
 

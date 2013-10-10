@@ -51,7 +51,7 @@ class CambiarusuarioForm(forms.ModelForm):
 
 class InicioForm(forms.Form):
     usuario = forms.CharField(label='', widget=forms.TextInput(attrs={'placeholder': 'Usuario', 'type':'text', 'autofocus':'True'}), required=True)
-    password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'placeholder':'Password','type':'password',}), required=True)
+    password = forms.CharField(label='', widget=forms.PasswordInput(attrs={'placeholder':'Contraseña','type':'password',}), required=True)
 
 class UsuarioForm(ModelForm):
     class Meta:
