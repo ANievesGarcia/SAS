@@ -41,7 +41,14 @@
 				<div id="login">
 					<!-- TODO... agregar como bloque, dependiendo el usuario que esté en el sistema -->
 				<p><span id="usuario-nombre">{{profesor.nombre}} {{profesor.apellidoPaterno}} {{profesor.apellidoMaterno}}</span><br>
-				<span id="usuario-tipo">{{profesor.clasificacion}} - {{atributos_profesor.rol_academico}} - {{atributos_profesor.tipo}} </span>
+				<span id="usuario-tipo">{{profesor.clasificacion}} 
+					-  {% if es_coordinador > 0 %}
+							Coordinador
+			           {% endif %}
+			        -  {% if es_jefeDepto > 0 %}
+							JefeDepartamento
+			           {% endif %}   
+			        - {{atributos_profesor.tipo}} </span>
 				<span id="usuario-id">{{profesor.clave}}</span></p>
 				
 				<p>
@@ -69,7 +76,7 @@
 
 			              <li><a href="/profesor_registrar_calificaciones">Ordinaria</a></li>
 			              <li><a href="/profesor_registrar_calificaciones_extra">Extraordinaria</a></li>
-			              {% if 'JefeAsignatura' in atributos_profesor.rol_academico %}
+			              {% if es_coordinador > 0 %}
 			              	<li><a href="/profesor_registrar_calificaciones_ets">ETS</a></li>
 			              {% endif %}
 			              </ul>
@@ -91,6 +98,17 @@
 			            <li class="divider"></li>
 			            <li><a href="/profesor_tutorias">Tutorías</a></li>
 			            <li class="divider"></li>
+			            {% if es_jefeDepto > 0 %}
+				        <li class="dropdown-submenu">
+				             <a tabindex="-1" href="#">Departamento</a>
+				              <ul class="dropdown-menu">
+
+				                <li><a href="/jefe_depto_coordinacion">Cordinación de materias</a></li>
+                 				<li><a href="/jefe_depto_horarios">Horarios Profesores</a></li>
+				              </ul>
+				         </li>
+			           {% endif %} 
+
       				</ul>
       	
 

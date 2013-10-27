@@ -136,9 +136,34 @@ class Grupo(models.Model):
 class Depto(models.Model):
     nombre_depto = models.CharField(max_length=30,unique=True, db_index=True)
     ubicacion = models.CharField(max_length=50, blank=True,null=True)
-    jefe_depto = models.ForeignKey(Usuario,blank=True,null=True)
     def __unicode__(self):
         return self.nombre_depto
+
+class Profesor(models.Model):
+    
+    cve_usuario = models.ForeignKey(Usuario)
+    rol_academico = models.CharField(max_length=30, choices=roles_academicos,null=True)
+    tipo = models.CharField(max_length=30, choices=tipo_profesores)
+    grupo_tutorado = models.ForeignKey(Grupo,null=True,blank=True)
+    Departamento = models.ForeignKey(Depto,null=True,blank=True)
+    status = models.CharField(max_length=20, choices=status_empleados)
+    hora_entrada = models.CharField(max_length=5)
+    hora_salida = models.CharField(max_length=5)
+    grado_estudios = models.CharField(max_length=30 )
+    carrera = models.CharField(max_length=40)
+    salario = models.FloatField(null=True,blank=True)
+    lab_a_mi_cargo = models.ForeignKey(Laboratorio, null=True,blank=True)
+    comentario=models.CharField(max_length=400,null=True,blank=True)
+
+    def __unicode__(self):
+        return str(self.cve_usuario)
+
+class JefeDepartamento(models.Model):
+    cve_depto=models.ForeignKey(Depto,unique=True)
+    cve_prof=models.ForeignKey(Profesor,unique=True)
+    class Meta:
+        unique_together = (("cve_depto","cve_prof"))
+
 
 class Horario(models.Model):
     cve_horario = models.IntegerField(unique=True,db_index=True)
@@ -146,6 +171,7 @@ class Horario(models.Model):
         ordering = ('cve_horario',)
     def __unicode__(self):
         return str(self.cve_horario)
+
 
 
 #***********************************************************************************************************
@@ -157,7 +183,7 @@ class Materia(models.Model):
     clasificacion = models.CharField(max_length=30, choices=clasificacion_materias)
     tipo= models.CharField(max_length=12, choices=tipo_materias)
     nivel = models.CharField(max_length=1, choices=niveles)
-    coordinador = models.ForeignKey(Usuario,blank=True,null=True)
+    coordinador = models.ForeignKey(Profesor,blank=True,null=True)
     depto = models.ForeignKey(Depto,blank=True,null=True)
     materia_antecedente = models.ForeignKey('self', null=True,blank=True,related_name='materia_materia_antecedente')
     materia_siguiente = models.ForeignKey('self', null=True, blank=True, related_name='materia_materia_siguiente')
@@ -168,34 +194,17 @@ class Materia(models.Model):
         return 'Materia : '+self.nombre
 
 
-class Profesor(models.Model):
-    
-    cve_usuario = models.ForeignKey(Usuario)
-    rol_academico = models.CharField(max_length=30, choices=roles_academicos,null=True)
-    tipo = models.CharField(max_length=30, choices=tipo_profesores)
-    grupo_tutorado = models.ForeignKey(Grupo,null=True,blank=True)
 
-    status = models.CharField(max_length=20, choices=status_empleados)
-    hora_entrada = models.CharField(max_length=5)
-    hora_salida = models.CharField(max_length=5)
-    grado_estudios = models.CharField(max_length=30 )
-    carrera = models.CharField(max_length=40)
-    salario = models.FloatField(null=True,blank=True)
-    lab_a_mi_cargo = models.ForeignKey(Laboratorio, null=True,blank=True)
-    comentario=models.CharField(max_length=400)
-
-    def __unicode__(self):
-        return str(self.cve_usuario)
 
 
 class MateriaImpartidaEnGrupo(models.Model):
     materia = models.ForeignKey(Materia)
     grupo = models.ForeignKey(Grupo)
     horario = models.ForeignKey(Horario)
-    profesor = models.ForeignKey(Profesor)
+    profesor = models.ForeignKey(Profesor,blank=True,null=True)
 
     class Meta:
-        unique_together = (("materia", "grupo"),("grupo", "horario"))
+        unique_together = (("materia", "grupo"),("grupo", "horario"),("profesor","horario"))
     def __str__(self):
         return '%s %s' % (self.materia, self.grupo)
 
@@ -233,7 +242,7 @@ class Ets(models.Model):
     salon=models.ForeignKey(Salon)
 
     class Meta:
-        unique_together = (("cve_materia", "turno"),)
+        unique_together = (("cve_materia", "turno"),("salon", "fecha","hora"),("fecha", "hora","evaluador"))
         ordering = ('cve_materia',)
 
     def __unicode__(self): 

@@ -44,6 +44,12 @@ urlpatterns = patterns('',
 	url(r'^recuperar_contrasena/$','principal.views.recuperar_contrasena'),
 	url(r'^reporte_lista/$', 'principal.views.reporte_lista'),
 	url(r'^reporte_evaluaciones/$', 'principal.views.reporte_evaluaciones'),
+	url(r'^jefe_depto_coordinacion/$', 'principal.views.jefe_depto_coordinacion'),
+	url(r'^jefe_depto_horarios/$', 'principal.views.jefe_depto_horarios'),
+	url(r'^jefe_depto_guarda_horarios/$', 'principal.views.jefe_depto_guarda_horarios'),
+
+
+
 
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	url(r'^admin/', include(admin.site.urls)),

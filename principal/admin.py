@@ -58,3 +58,5 @@ admin.site.register(MateriaImpartidaEnGrupo)
 admin.site.register(ComentarioTutorado)
 
 admin.site.register(AlumnoTomaClaseEnGrupo)
+admin.site.register(JefeDepartamento)
+

@@ -1,0 +1,72 @@
+
+{% extends 'profesor/base.html' %}
+
+{% block archivos_css  %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/perfiles/perfil-profesor.css">
+
+	
+{% endblock %}
+
+{%  block contenido %}
+			
+				<h1>Gestión de horarios</h1></br>
+					<h2>Departamento: {{es_jefe.cve_depto.nombre_depto}}</h2></br>
+
+				{% if mensaje == 1 %}
+					<script>
+					bootbox.alert('Horarios guardados correctamente')
+					
+					</script>
+
+				{% elif mensaje == 2 %}
+					<script>
+					bootbox.alert('Error de traslape')
+					</script>
+				{% endif %}
+
+				<center>
+			<Form method="GET" action='/jefe_depto_guarda_horarios'>
+				<P>Materias pertenecientes al departamento	
+				<table id='tabla-materias-profesor'>
+						<tr>
+							<th>Materia</th>
+							<th>Grupo</th>
+							<th>Horario</th>
+							<th>Profesor</th>
+
+						</tr>
+						{%for materia in materias %}
+							<tr>
+								<td>{{materia.materia.nombre}}</td>
+								<td>{{materia.grupo.cve_grupo}}</td>
+								<td><a onclick="">
+									{{materia.horario}}
+									</a>
+								</td>
+								<td><select name={{materia.id}} >
+										{%for profesor in profesores %}
+											{% if profesor.id == materia.profesor.id %}
+												<option value={{profesor.id}} selected="selected"> 
+													{{ profesor.cve_usuario.get_full_name}} 
+												</option>
+											{% else %}
+												<option value={{profesor.id}}> 
+													{{ profesor.cve_usuario.get_full_name}} 
+												</option>
+											{% endif %}	
+										{% endfor %}
+									</select>
+								</td>
+							</tr>
+						{% endfor %}
+						
+					</table>
+				<br>
+			<input class="btn" type="submit" value="Guardar"/>
+
+			<input class="btn cancelar" type="button" value="Cancelar" onclick="bootbox.alert('Usted ha cancelado la operacion',function() {
+  window.location = '/profesor_main'});"/>
+			</Form>
+		</center>
+		
+{% endblock %}
