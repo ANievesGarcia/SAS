@@ -47,6 +47,7 @@ urlpatterns = patterns('',
 	url(r'^jefe_depto_coordinacion/$', 'principal.views.jefe_depto_coordinacion'),
 	url(r'^jefe_depto_horarios/$', 'principal.views.jefe_depto_horarios'),
 	url(r'^jefe_depto_guarda_horarios/$', 'principal.views.jefe_depto_guarda_horarios'),
+	url(r'^jefe_depto_guarda_coordinacion/$', 'principal.views.jefe_depto_guarda_coordinacion'),
 
 
 

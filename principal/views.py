@@ -712,8 +712,7 @@ def jefe_depto_horarios(request):
 
     return render_to_response('profesor/gestionarHorarios.html',locals(),context_instance=RequestContext(request))
 
-def jefe_depto_coordinacion(request):
-    return render_to_response('',locals(),context_instance=RequestContext(request))
+
 
 def jefe_depto_guarda_horarios(request):
 
@@ -726,8 +725,12 @@ def jefe_depto_guarda_horarios(request):
     materias_impartidas=MateriaImpartidaEnGrupo.objects.filter(materia__depto__id=es_jefe.cve_depto.id)
     try:
         for materia in materias:
-            p=materias_impartidas.filter(id=materia).update(profesor=materias.get(materia))
-            mensaje=1;
+            if materias.get(materia) =="sinAsignar":
+                print "sin asignar"
+                p=materias_impartidas.filter(id=materia).update(profesor="")
+            else:
+                p=materias_impartidas.filter(id=materia).update(profesor=materias.get(materia))
+                mensaje=1;
 
     except:
         mensaje=2;
@@ -736,3 +739,38 @@ def jefe_depto_guarda_horarios(request):
     
     return render_to_response('profesor/gestionarHorarios.html',locals(),context_instance=RequestContext(request))
 
+def jefe_depto_guarda_coordinacion(request):
+    materia_get=request.GET
+    profesor=request.user
+    atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
+    es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefe=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario)[0]
+    materias=Materia.objects.filter(depto__id=es_jefe.cve_depto.id)
+    profesores=Profesor.objects.filter(Departamento__id=es_jefe.cve_depto.id)
+
+    try:
+        for materia in materia_get:
+            if materia_get.get(materia) =="sinAsignar":
+                p=materias.filter(id=materia).update(coordinador="")
+            else:
+                p=materias.filter(id=materia).update(coordinador=materia_get.get(materia))
+                mensaje=1;
+
+    except:
+        mensaje=2;
+    
+    return render_to_response('profesor/gestionarCoordinaciones.html',locals(),context_instance=RequestContext(request))
+
+def jefe_depto_coordinacion(request):
+    profesor=request.user
+    atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
+    es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefe=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario)[0]
+    materias=Materia.objects.filter(depto__id=es_jefe.cve_depto.id)
+    profesores=Profesor.objects.filter(Departamento__id=es_jefe.cve_depto.id)
+
+    return render_to_response('profesor/gestionarCoordinaciones.html',locals(),context_instance=RequestContext(request))
+
+    

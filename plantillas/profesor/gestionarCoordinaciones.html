@@ -9,49 +9,43 @@
 
 {%  block contenido %}
 			
-				<h1>Gestión de horarios</h1></br>
+				<h1>Gestión de coordinación</h1></br>
 					<h2>Departamento: {{es_jefe.cve_depto.nombre_depto}}</h2></br>
 
 				{% if mensaje == 1 %}
 					<script>
-					bootbox.alert('Horarios guardados correctamente')
+					bootbox.alert('Coordinaciones guardadas correctamente')
 					
 					</script>
 
 				{% elif mensaje == 2 %}
 					<script>
-					bootbox.alert('Error de traslape')
+					bootbox.alert('Error')
 					</script>
 				{% endif %}
 
 				<center>
-			<Form method="GET" action='/jefe_depto_guarda_horarios'>
+			<Form method="GET" action='/jefe_depto_guarda_coordinacion'>
 				<P>Materias pertenecientes al departamento	
 				<table id='tabla-materias-profesor'>
 						<tr>
 							<th>Materia</th>
-							<th>Grupo</th>
-							<th>Horario</th>
-							<th>Profesor</th>
+							<th>Coordinador</th>
 
 						</tr>
 						{%for materia in materias %}
 							<tr>
-								<td>{{materia.materia.nombre}}</td>
-								<td>{{materia.grupo.cve_grupo}}</td>
-								<td><a onclick="">
-									{{materia.horario}}
-									</a>
-								</td>
+								<td>{{materia.nombre}}</td>
 								<td><select name={{materia.id}} >
-										<option value="sinAsignar" selected="selected"> 
+									<option value="sinAsignar" selected="selected"> 
 											Sin asignar
-										</option>
+									</option>
+
 										{%for profesor in profesores %}
-											{% if profesor.id == materia.profesor.id %}
+											{% if profesor.id == materia.coordinador.id %}
 												<option value={{profesor.id}} selected="selected"> 
 													{{ profesor.cve_usuario.get_full_name}} 
-												</option>	
+												</option>
 											{% else %}
 												<option value={{profesor.id}}> 
 													{{ profesor.cve_usuario.get_full_name}} 
