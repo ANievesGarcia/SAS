@@ -39,7 +39,8 @@
 							<tr>
 								<td>{{materia.materia.nombre}}</td>
 								<td>{{materia.grupo.cve_grupo}}</td>
-								<td><a onclick="">
+								<td><a onclick="bootbox.alert(
+								 	'<table table border=1 ><tr><th>Lunes</th><th>Martes</th><th>Miercoles</th><th>Jueves</th><th>Viernes</th></tr><tr><td>{{materia.horario.lunes}}</td><td>{{materia.horario.martes}}</td><td>{{materia.horario.miercoles}}</td><td>{{materia.horario.jueves}}</td><td>{{materia.horario.viernes}}</td></tr></table>');">
 									{{materia.horario}}
 									</a>
 								</td>

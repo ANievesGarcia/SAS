@@ -23,6 +23,9 @@ status_empleados=(('Activo', 'Activo'),('Sabatico', 'Sabático'),('Incapacidad',
 roles_academicos=(('Coordinador', 'Coordinador'),('JefeAsignatura', 'JefeAsignatura'),('Normal','Normal'))
 tipo_profesores=(('Base', 'Base'),('Interino', 'Interino'))
 turno =(('Matutino','Matutino'),('Vespertino','Vespertino'))
+horas =(('7:00-8:30','7:00-8:30'),('8:30-10:00','8:30-10:00'),('10:30-12:00','10:30-12:00'),('12:00-13:30','12:00-13:30'),
+    ('13:30-15:00','13:30-15:00'),('15:00-16:30','15:00-16:30'),('16:30-18:00','16:30-18:00'),('18:30-20:00','18:30-20:00'),
+    ('20:00-21:00','20:00-21:00'),('--','--'))
 
 
 #***********************************************************************************************************
@@ -101,28 +104,7 @@ class Salon(models.Model):
 
 #***********************************************************************************************************
 
-class Laboratorio(models.Model):
-    nombre = models.CharField(max_length=30, unique=True, db_index=True)
-    tipo = models.CharField(max_length=20, choices=tipos_laboratorios)
-    ubicacion = models.CharField(max_length=30, blank=True,null=True)
-    
-    def __unicode__(self):
-        return self.nombre
 
-#***********************************************************************************************************
-class EmpleadoEscolar(models.Model):
-    cve_usuario = models.ForeignKey(Usuario,unique=True, db_index=True)
-    status = models.CharField(max_length=20, choices=status_empleados)
-    hora_entrada = models.CharField(max_length=5)
-    hora_salida = models.CharField(max_length=5)
-    grado_estudios = models.CharField(max_length=30 )
-    carrera = models.CharField(max_length=40)
-    salario = models.FloatField(null=True,blank=True)
-    lab_a_mi_cargo = models.ForeignKey(Laboratorio, null=True,blank=True)
-    def __unicode__(self):
-        return str(self.cve_usuario)
-
-#***********************************************************************************************************
 
 class Grupo(models.Model):
     cve_grupo = models.CharField(max_length=4, unique=True, db_index=True)
@@ -152,11 +134,20 @@ class Profesor(models.Model):
     grado_estudios = models.CharField(max_length=30 )
     carrera = models.CharField(max_length=40)
     salario = models.FloatField(null=True,blank=True)
-    lab_a_mi_cargo = models.ForeignKey(Laboratorio, null=True,blank=True)
     comentario=models.CharField(max_length=400,null=True,blank=True)
 
     def __unicode__(self):
         return str(self.cve_usuario)
+
+
+class Laboratorio(models.Model):
+    tipo = models.CharField(max_length=20, choices=tipos_laboratorios)
+    numero = models.CharField(max_length=30, unique=True, db_index=True)
+    ubicacion = models.CharField(max_length=30, blank=True,null=True)
+    encargado=models.ForeignKey(Profesor,unique=True,blank=True,null=True)
+
+    def __unicode__(self):
+        return self.nombre
 
 class JefeDepartamento(models.Model):
     cve_depto=models.ForeignKey(Depto,unique=True)
@@ -167,6 +158,11 @@ class JefeDepartamento(models.Model):
 
 class Horario(models.Model):
     cve_horario = models.IntegerField(unique=True,db_index=True)
+    lunes= models.CharField(max_length=20, choices=horas,blank=True,null=True)
+    martes= models.CharField(max_length=20, choices=horas,blank=True,null=True)
+    miercoles= models.CharField(max_length=20, choices=horas,blank=True,null=True)
+    jueves= models.CharField(max_length=20, choices=horas,blank=True,null=True)
+    viernes= models.CharField(max_length=20, choices=horas,blank=True,null=True)
     class Meta:
         ordering = ('cve_horario',)
     def __unicode__(self):
