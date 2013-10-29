@@ -25,6 +25,21 @@
 				{% endif %}
 
 				<center>
+			
+				<div style="float:left;">
+				Comentarios Profesores: <select id="comboA" onchange="
+				var profesor= this.options[this.selectedIndex].value;
+				bootbox.alert(profesor);
+				">
+				{%for profesor in profesores %}
+					<option value={{profesor.id}}> 
+						{{ profesor.cve_usuario.get_full_name}} 
+					</option>
+				{% endfor %}
+				</select>
+				</div>
+				<br><br>			
+
 			<Form method="GET" action='/jefe_depto_guarda_horarios'>
 				<P>Materias pertenecientes al departamento	
 				<table id='tabla-materias-profesor'>
@@ -74,3 +89,11 @@
 		</center>
 		
 {% endblock %}
+
+<script>
+
+function opiniones(){
+    //var value = sel.options[sel.selectedIndex].value;
+    alert("entro");
+}
+</script>

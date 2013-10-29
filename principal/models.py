@@ -147,7 +147,7 @@ class Laboratorio(models.Model):
     encargado=models.ForeignKey(Profesor,unique=True,blank=True,null=True)
 
     def __unicode__(self):
-        return self.nombre
+        return '%s %s' % (self.tipo,self.numero)
 
 class JefeDepartamento(models.Model):
     cve_depto=models.ForeignKey(Depto,unique=True)

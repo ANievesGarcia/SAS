@@ -167,7 +167,7 @@ def profesor_main(request):
 
         es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
         es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
-
+        es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
         return render(request, 'profesor/main.html',locals(),context_instance=RequestContext(request))
     except:
         mensaje=1
@@ -184,6 +184,7 @@ def profesor_miperfil(request):
         tutorados=Alumno.objects.filter(tutor_escolar=profesor2)
         es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
         es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+        es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
         foto=profesor2.cve_usuario.foto
         num=0
         for alumno in tutorados:
@@ -202,6 +203,8 @@ def guarda_miperfil(request):
         profesor2=Profesor.objects.get(cve_usuario=profesor)
         es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
         es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+        es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+        
         correo=request.GET['email']
         telefono=request.GET['telefono']
         hentrada=request.GET['entrada']
@@ -245,6 +248,8 @@ def profesor_miperfil2(request):
     grupos=MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     return render_to_response('profesor/mi-perfil2.html',locals(),context_instance=RequestContext(request))
 
 
@@ -254,6 +259,8 @@ def profesor_preferencias(request):
     prof=Profesor.objects.get(cve_usuario=profesor)
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     return render_to_response('profesor/preferencias.html',locals(),context_instance=RequestContext(request))
 
 
@@ -262,6 +269,8 @@ def guardar_preferencias(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     comentario=request.GET['preferencias']
     p=Profesor.objects.filter(cve_usuario=profesor).update(comentario=comentario)
     prof=Profesor.objects.get(cve_usuario=profesor)
@@ -277,6 +286,8 @@ def profesor_mis_grupos(request):
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
 
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     return render_to_response('profesor/mis-grupos.html',locals(),context_instance=RequestContext(request))
 
 def profesor_registrar_calificaciones(request):
@@ -284,6 +295,8 @@ def profesor_registrar_calificaciones(request):
     atributos_profesor = Profesor.objects.get(cve_usuario = profesor)
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
     
     grupolist = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     return render_to_response('profesor/registrar-calificaciones.html',locals(),context_instance=RequestContext(request))
@@ -294,6 +307,8 @@ def profesor_registrar_calificaciones_extra(request):
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
     
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     grupolist = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     return render_to_response('profesor/registrar-calificacionesExtra.html',locals(),context_instance=RequestContext(request))
 
@@ -302,6 +317,8 @@ def profesor_registrar_calificaciones_ets(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
     
     materias_ets=Ets.objects.filter(cve_materia__coordinador__cve_usuario=atributos_profesor.cve_usuario)
     return render_to_response('profesor/registrar-calificacionesETS.html',locals(),context_instance=RequestContext(request))
@@ -317,6 +334,8 @@ def directorio(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     return render_to_response('directorio.html',locals(),context_instance=RequestContext(request))
 
 def profesor_reportes_PRUI08_1(request):
@@ -325,6 +344,8 @@ def profesor_reportes_PRUI08_1(request):
     atributos_profesor = Profesor.objects.get(cve_usuario = profesor)
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     grupolist = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     return render_to_response('profesor/reportes/PRUI08.1.html',locals(),context_instance=RequestContext(request))
 
@@ -333,6 +354,8 @@ def profesor_reportes_PRUI08_2(request):
     atributos_profesor = Profesor.objects.get(cve_usuario = profesor)
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     grupolist = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     return render_to_response('profesor/reportes/PRUI08.2.html',locals(),context_instance=RequestContext(request))
 
@@ -341,6 +364,8 @@ def profesor_calendario(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     return render_to_response('profesor/calendario.html',locals(),context_instance=RequestContext(request))
 
 def profesor_tutorias(request):
@@ -348,6 +373,8 @@ def profesor_tutorias(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     Tutorado=Alumno.objects.filter(tutor_escolar=atributos_profesor)
     return render_to_response('profesor/tutorias.html',locals(),context_instance=RequestContext(request))
 
@@ -356,6 +383,8 @@ def profesor_ingresa_calificacion(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     materia=request.GET['materia']
     materiaGrupo = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     materiaGrupo = materiaGrupo.filter(id=materia)[0]
@@ -370,6 +399,8 @@ def profesor_ingresa_calificacion_extra(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     materia=request.GET['materia']
     materiaGrupo1 = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     materiaGrupo = materiaGrupo1.filter(id=materia)
@@ -387,6 +418,8 @@ def profesor_ingresa_calificacion_ets(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     materia=request.GET['materia']
     ets = Ets.objects.filter(id=int(materia))[0]
     request.session["ets_aplicado"] = ets
@@ -399,6 +432,8 @@ def profesor_guarda_calificacion(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     grupolist = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     
     materiaGrupo = request.session["materiaGrupo"]
@@ -417,6 +452,8 @@ def profesor_guarda_calificacionExtra(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     grupolist = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
     materiaGrupo = request.session["materiaGrupo"]
     alumnos = AlumnoTomaClaseEnGrupo.objects.filter(materia_grupo=materiaGrupo)
@@ -440,6 +477,8 @@ def perfiles_profesor(request):
             cvep=request.GET['prof']
             es_coordinador=Materia.objects.filter(coordinador__cve_usuario__clave=cvep).count()
             es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+            es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
             profesor2=Profesor.objects.get(cve_usuario__clave=cvep)
             materias_coordina=Materia.objects.filter(coordinador__cve_usuario__clave=cvep)
             materias=MateriaImpartidaEnGrupo.objects.filter(profesor=profesor2)
@@ -466,6 +505,8 @@ def perfiles_materia(request):
         infmat=request.GET['mat']
         es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
         es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+        es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
         materia2=Materia.objects.get(nombre=infmat)
         materias=MateriaImpartidaEnGrupo.objects.filter(materia=materia2)
 
@@ -487,6 +528,8 @@ def perfiles_grupo(request):
         atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
         es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
         es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()        
+        es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
         materias=MateriaImpartidaEnGrupo.objects.filter(grupo__cve_grupo=idg)
         grupo=Grupo.objects.get(cve_grupo=idg)
         turno=grupo.turno
@@ -571,6 +614,8 @@ def profesor_tutorias_comentar(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     cont =0
     Tutorado=ComentarioTutorado.objects.filter(profesor=atributos_profesor)
     return render_to_response('profesor/comentar-tutoria.html',locals(),context_instance=RequestContext(request))
@@ -581,6 +626,8 @@ def guardar_comentarios(request):
         atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
         es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
         es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+        es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
         cont =0
         usuario = request.user
         Tutorado=ComentarioTutorado.objects.filter(profesor=atributos_profesor)
@@ -603,6 +650,8 @@ def profesor_agregar_tutorado(request):
     atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     return render_to_response('profesor/agregar-tutorado.html',locals(),context_instance=RequestContext(request))
 
 def profesor_tutorias_add(request):
@@ -707,6 +756,8 @@ def jefe_depto_horarios(request):
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefe=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario)[0]
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     materias=MateriaImpartidaEnGrupo.objects.filter(materia__depto__id=es_jefe.cve_depto.id)
     profesores=Profesor.objects.filter(Departamento__id=es_jefe.cve_depto.id)
 
@@ -722,6 +773,8 @@ def jefe_depto_guarda_horarios(request):
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefe=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario)[0]
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     materias_impartidas=MateriaImpartidaEnGrupo.objects.filter(materia__depto__id=es_jefe.cve_depto.id)
     try:
         for materia in materias:
@@ -746,6 +799,8 @@ def jefe_depto_guarda_coordinacion(request):
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefe=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario)[0]
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     materias=Materia.objects.filter(depto__id=es_jefe.cve_depto.id)
     profesores=Profesor.objects.filter(Departamento__id=es_jefe.cve_depto.id)
 
@@ -768,6 +823,8 @@ def jefe_depto_coordinacion(request):
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefe=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario)[0]
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
     materias=Materia.objects.filter(depto__id=es_jefe.cve_depto.id)
     profesores=Profesor.objects.filter(Departamento__id=es_jefe.cve_depto.id)
 
