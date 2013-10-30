@@ -29,8 +29,10 @@
 				<div style="float:left;">
 				Comentarios Profesores: <select id="comboA" onchange="
 				var profesor= this.options[this.selectedIndex].value;
+				var comentarios=new Array();
+				comentarios={{comentarios}}
 				
-				bootbox.alert('<table table border=1 ><tr><th>Comentario</th></tr><tr><td></td></tr></table>');
+				bootbox.alert('<table table border=1 ><tr><th>Comentario</th></tr><tr><td>comentarioss</td></tr></table>');
 				">
 				
 				{%for profesor in profesores %}
@@ -59,7 +61,7 @@
 								<td>{{materia.grupo.cve_grupo}}</td>
 								<td><a onclick="bootbox.alert(
 								 	'<table table border=1 ><tr><th>Lunes</th><th>Martes</th><th>Miercoles</th><th>Jueves</th><th>Viernes</th></tr><tr><td>{{materia.horario.lunes}}</td><td>{{materia.horario.martes}}</td><td>{{materia.horario.miercoles}}</td><td>{{materia.horario.jueves}}</td><td>{{materia.horario.viernes}}</td></tr></table>');">
-									{{materia.horario}}
+									<img src="{{MEDIA_URL}}img/interrogacion.jpg" alt="" style="width:10%">(da click)
 									</a>
 								</td>
 								<td><select name={{materia.id}} >
