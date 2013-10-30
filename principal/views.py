@@ -760,7 +760,9 @@ def jefe_depto_horarios(request):
     
     materias=MateriaImpartidaEnGrupo.objects.filter(materia__depto__id=es_jefe.cve_depto.id)
     profesores=Profesor.objects.filter(Departamento__id=es_jefe.cve_depto.id)
-
+    comentarios=[]
+    for come in profesores:
+        comentarios.append(come.comentario)
     return render_to_response('profesor/gestionarHorarios.html',locals(),context_instance=RequestContext(request))
 
 
