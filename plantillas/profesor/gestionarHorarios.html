@@ -28,22 +28,28 @@
 			
 				<div style="float:left;">
 				Comentarios Profesores: <select id="comboA" onchange="
-				var profesor= this.options[this.selectedIndex].value;
-				var comentarios=new Array();
-				comentarios={{comentarios}}
-				
-				bootbox.alert('<table table border=1 ><tr><th>Comentario</th></tr><tr><td>comentarioss</td></tr></table>');
-				">
-				
+				comentario2(this.options[this.selectedIndex].value)">
 				{%for profesor in profesores %}
 					<option value={{profesor.id}}> 
 						{{ profesor.cve_usuario.get_full_name}} 
 					</option>
 				{% endfor %}
 				</select>
+
+				<script>
+
+					function comentario2(name)
+					{
+						console.log(name)
+						var comen={{json_list|safe}}; 
+						bootbox.alert(comen[name-1])
+						console.log(comen)
+					}
+				</script>
 				</div>
 				<br><br>			
 
+			
 			<Form method="GET" action='/jefe_depto_guarda_horarios'>
 				<P>Materias pertenecientes al departamento
 					<br>	

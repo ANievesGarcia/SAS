@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import login, authenticate, logout
 from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
+from django.utils import simplejson
 
 from forms import *
 from models import *
@@ -763,6 +764,8 @@ def jefe_depto_horarios(request):
     comentarios=[]
     for come in profesores:
         comentarios.append(come.comentario)
+
+    json_list = simplejson.dumps(comentarios)
     return render_to_response('profesor/gestionarHorarios.html',locals(),context_instance=RequestContext(request))
 
 
