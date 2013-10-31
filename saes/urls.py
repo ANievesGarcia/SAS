@@ -48,10 +48,7 @@ urlpatterns = patterns('',
 	url(r'^jefe_depto_horarios/$', 'principal.views.jefe_depto_horarios'),
 	url(r'^jefe_depto_guarda_horarios/$', 'principal.views.jefe_depto_guarda_horarios'),
 	url(r'^jefe_depto_guarda_coordinacion/$', 'principal.views.jefe_depto_guarda_coordinacion'),
-
-
-
-
+	url(r'^equipoLaboratorio/$', 'principal.views.equipoLaboratorio'),
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'media/(?P<path>.*)', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),

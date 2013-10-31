@@ -27,7 +27,9 @@ horas =(('7:00-8:30','7:00-8:30'),('8:30-10:00','8:30-10:00'),('10:30-12:00','10
     ('13:30-15:00','13:30-15:00'),('15:00-16:30','15:00-16:30'),('16:30-18:00','16:30-18:00'),('18:30-20:00','18:30-20:00'),
     ('20:00-21:00','20:00-21:00'),('--','--'))
 
-
+equipos=(('Computadora','Computadora'),('Impresora','Impresora'),('Multimetro','Multimetro'),('Osciloscopio','Osciloscopio'),
+    ('FuenteAlimentacion','FuenteAlimentacion'))
+status_equipos=(('Activo','Activo'),('Reparacion','Reparacion'))
 #***********************************************************************************************************
 class Usuario(AbstractBaseUser, PermissionsMixin):
 
@@ -303,3 +305,14 @@ class AlumnoTomaClaseEnGrupo(models.Model):
         ordering = ('alumno',)
     def __str__(self):
         return '%s %s' % (self.alumno,self.materia_grupo)
+#***********************************************************************************************************
+class Equipos(models.Model):
+    nombreEquipo=models.CharField(max_length=20,choices=equipos)
+    numero_serie=models.CharField(max_length=50,unique=True)
+    descripcionEquipo=models.CharField(max_length=30,null=True, blank=True)
+    status=models.CharField(max_length=20,choices=status_equipos)
+    laboratorio=models.ForeignKey('Laboratorio')
+    def __str__(self):
+        return '%s %s %s' % (self.nombreEquipo,self.numero_serie,self.laboratorio)
+
+

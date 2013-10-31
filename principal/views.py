@@ -794,7 +794,11 @@ def jefe_depto_guarda_horarios(request):
         mensaje=2;
     materias=MateriaImpartidaEnGrupo.objects.filter(materia__depto__id=es_jefe.cve_depto.id)
     profesores=Profesor.objects.filter(Departamento__id=es_jefe.cve_depto.id)
-    
+    comentarios=[]
+    for come in profesores:
+        comentarios.append(come.comentario)
+
+    json_list = simplejson.dumps(comentarios)
     return render_to_response('profesor/gestionarHorarios.html',locals(),context_instance=RequestContext(request))
 
 def jefe_depto_guarda_coordinacion(request):
@@ -835,4 +839,13 @@ def jefe_depto_coordinacion(request):
 
     return render_to_response('profesor/gestionarCoordinaciones.html',locals(),context_instance=RequestContext(request))
 
-    
+def equipoLaboratorio(request):
+    profesor=request.user
+    atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
+    es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefe=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario)[0]
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario)[0]
+    equipos=Equipos.objects.filter(laboratorio__id=es_laboratorista.id)
+    return render_to_response('profesor/gestionarEquipo.html',locals(),context_instance=RequestContext(request))
+

@@ -1,0 +1,64 @@
+
+{% extends 'profesor/base.html' %}
+
+{% block archivos_css  %}
+<link rel="stylesheet" href="{{MEDIA_URL}}css/perfiles/perfil-profesor.css">
+
+	
+{% endblock %}
+
+{%  block contenido %}
+			
+				<h1>Gestión de equipo de Laboratorio</h1></br>
+					<h2>Laboratorio: {{es_laboratorista.tipo}}__ {{es_laboratorista.numero}}</h2></br>
+
+				{% if mensaje == 1 %}
+					<script>
+					bootbox.alert('Horarios guardados correctamente')
+					
+					</script>
+
+				{% elif mensaje == 2 %}
+					<script>
+					bootbox.alert('Error de traslape')
+					</script>
+				{% endif %}
+
+				<center>
+			
+				<br><br>			
+
+			<Form method="GET" action='/jefe_depto_guarda_horarios'>
+				<P align="left">Material:</p>
+					<br>	
+				<Form method="GET" action='/modificarEquipo'>
+				<table id='tabla-materias-profesor'>
+						<tr>
+							<th>Nombre</th>
+							<th>Número de serie</th>
+							<th>status</th>
+							<th>Editar</th>
+						</tr>
+						{%for equipo in equipos %}
+							<tr>
+								<td>{{equipo.nombreEquipo}}</td>
+								<td>{{equipo.numero_serie}}</td>
+								<td>{{equipo.status}}</td>
+								<td><input id="{{equipo.numero_serie}}" class="btn" type="button" value="Editar" onclick=""></td>
+							</tr>
+						{% endfor %}
+						
+					</table>
+			</form>
+				<br>
+		</center>
+		
+{% endblock %}
+
+<script>
+
+function opiniones(){
+    //var value = sel.options[sel.selectedIndex].value;
+    alert("entro");
+}
+</script>
