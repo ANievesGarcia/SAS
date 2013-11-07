@@ -296,7 +296,6 @@ def profesor_registrar_calificaciones(request):
     atributos_profesor = Profesor.objects.get(cve_usuario = profesor)
     es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
     es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
-    
     es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
     
     grupolist = MateriaImpartidaEnGrupo.objects.filter(profesor=atributos_profesor)
@@ -849,3 +848,68 @@ def equipoLaboratorio(request):
     equipos=Equipos.objects.filter(laboratorio__id=es_laboratorista.id)
     return render_to_response('profesor/gestionarEquipo.html',locals(),context_instance=RequestContext(request))
 
+def modificarEquipo(request):
+    observaciones=request.GET
+    
+    agregar=0
+    profesor=request.user
+    atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
+    es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefe=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario)[0]
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario)[0]
+    
+    equipos=Equipos.objects.filter(laboratorio__id=es_laboratorista.id)
+    for equip in equipos:
+        print observaciones.get(equip.numero_serie+equip.nombreEquipo)
+        agregar=1
+        for eq in observaciones:
+            if(equip.numero_serie!=eq):
+                agregar=agregar
+            else:
+                agregar=0
+        if agregar==1:
+            print equip.numero_serie
+            p=Equipos.objects.get(numero_serie=equip.numero_serie).delete()
+            agregar=0
+        else:
+            p=equipos.filter(numero_serie=equip.numero_serie).update(observaciones=observaciones.get(equip.numero_serie),status=observaciones.get(equip.numero_serie+equip.nombreEquipo))
+
+    equipos=Equipos.objects.filter(laboratorio__id=es_laboratorista.id)
+    
+
+    mensaje=1
+    return render_to_response('profesor/gestionarEquipo.html',locals(),context_instance=RequestContext(request))
+
+
+
+def profesor_agregar_equipo(request):
+    profesor=request.user
+    atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
+    es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+    es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+    
+    return render_to_response('profesor/agregar-equipo.html',locals(),context_instance=RequestContext(request))
+def profesor_equipo2(request):
+    try:
+        profesor=request.user
+        nombre=request.GET['nombre']
+        serie=request.GET['serie']
+        desc=request.GET['desc']
+        status=request.GET['status']
+        obs=request.GET['obs']
+        atributos_profesor = Profesor.objects.filter(cve_usuario = profesor)[0]
+        es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
+        es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
+        es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+        
+        p=Equipos(nombreEquipo=nombre,numero_serie=serie,
+                        descripcionEquipo=desc,
+                        status=status,observaciones=obs,
+                        laboratorio=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario)[0])
+        p.save()
+        menseje=1
+    except:
+        mensaje=2
+    return render_to_response('profesor/agregar-equipo.html',locals(),context_instance=RequestContext(request))

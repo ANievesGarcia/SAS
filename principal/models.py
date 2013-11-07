@@ -311,6 +311,7 @@ class Equipos(models.Model):
     numero_serie=models.CharField(max_length=50,unique=True)
     descripcionEquipo=models.CharField(max_length=30,null=True, blank=True)
     status=models.CharField(max_length=20,choices=status_equipos)
+    observaciones=models.CharField(max_length=50,null=True)
     laboratorio=models.ForeignKey('Laboratorio')
     def __str__(self):
         return '%s %s %s' % (self.nombreEquipo,self.numero_serie,self.laboratorio)

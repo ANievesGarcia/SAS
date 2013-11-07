@@ -10,17 +10,17 @@
 {%  block contenido %}
 			
 				<h1>Gestión de equipo de Laboratorio</h1></br>
-					<h2>Laboratorio: {{es_laboratorista.tipo}}__ {{es_laboratorista.numero}}</h2></br>
+					<h2>Laboratorio: {{es_laboratorista.tipo}} {{es_laboratorista.numero}}</h2></br>
 
 				{% if mensaje == 1 %}
 					<script>
-					bootbox.alert('Horarios guardados correctamente')
+					bootbox.alert('Observaciones guardadas correctamente')
 					
 					</script>
 
 				{% elif mensaje == 2 %}
 					<script>
-					bootbox.alert('Error de traslape')
+					
 					</script>
 				{% endif %}
 
@@ -28,30 +28,66 @@
 			
 				<br><br>			
 
-			<Form method="GET" action='/jefe_depto_guarda_horarios'>
-				<P align="left">Material:</p>
-					<br>	
+			
 				<Form method="GET" action='/modificarEquipo'>
-				<table id='tabla-materias-profesor'>
+				<table id='tabla-materias-profesor' class="table">
 						<tr>
 							<th>Nombre</th>
 							<th>Número de serie</th>
-							<th>status</th>
-							<th>Editar</th>
+							<th>Descripcion Equipo</th>
+							<th></th>
+							<th>Estatus</th>
+							<th>Observaciones</th>
+							<th></th>
 						</tr>
 						{%for equipo in equipos %}
 							<tr>
 								<td>{{equipo.nombreEquipo}}</td>
-								<td>{{equipo.numero_serie}}</td>
-								<td>{{equipo.status}}</td>
-								<td><input id="{{equipo.numero_serie}}" class="btn" type="button" value="Editar" onclick=""></td>
+								<td name="ser" id="ser">{{equipo.numero_serie}}</td>
+								<td>{{equipo.descripcionEquipo}}<td>
+								<td>
+								{% if equipo.status in 'Activo'%}
+								<select id="materia" name="{{equipo.numero_serie}}{{equipo.nombreEquipo}}" >
+									<option selected value="Activo">Activo</option>
+									<option value="Reparacion" >Reparacón</option>
+								</select>
+								{% elif equipo.status in 'Reparacion' %}
+								<select id="materia" name="{{equipo.numero_serie}}{{equipo.nombreEquipo}}" >
+									<option  value="Activo">Activo</option>
+									<option selected value="Reparacion" >Reparacón</option>
+								</select>
+								{% endif %}
+								</td>
+								<td><input name="{{equipo.numero_serie}}" id="{{equipo.numero_serie}}" type="text" value="{{equipo.observaciones}}"></td>
+							<td class="eliminar"><input class="eliminar" type="submit" value="Eliminar"/></td>
+
 							</tr>
 						{% endfor %}
-						
 					</table>
+					<input class="btn" type="submit" value="Guardar"/>
 			</form>
+			<button class="1 btn" class="btn" onclick="location.href ='/profesor_agregar_equipo'">Agregar</button>
 				<br>
+
+					
 		</center>
+<script type="text/javascript">
+ 
+$(function(){
+	// Clona la fila oculta que tiene los campos base, y la agrega al final de la tabla
+	$("#agregar").on('click', function(){
+		$("#tabla tbody tr:eq(0)").clone().removeClass('fila-base').appendTo("#tabla tbody");
+	});
+ 
+	// Evento que selecciona la fila y la elimina 
+	$(document).on("click",".eliminar",function(){
+		var parent = $(this).parents().get(1);
+		$(parent).remove();
+
+	});
+});
+ 
+</script>
 		
 {% endblock %}
 
@@ -62,3 +98,4 @@ function opiniones(){
     alert("entro");
 }
 </script>
+
