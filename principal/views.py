@@ -36,7 +36,7 @@ def inicio(request):
     if not request.user.is_anonymous():
 
         if usuario.clasificacion ==  'Alumnos':
-            return HttpResponseRedirect("alumno/")
+            return HttpResponseRedirect("alumno/alumnoInicio")
         elif usuario.clasificacion ==  'Profesores':
             return HttpResponseRedirect("profesor_main/")
 
