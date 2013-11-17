@@ -12,11 +12,15 @@
 <script src="{{MEDIA_URL}}js/horario.js"></script>
 <script src="{{MEDIA_URL}}js/formularios.js"></script>
 
+
 {% block archivos_js %}{% endblock %}
 
 <!--Hojas de Estilo-->
 <link rel="stylesheet" href="{{MEDIA_URL}}css/bootstrap.css">
-<link rel="stylesheet" href="{{MEDIA_URL}}css/style.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/style.css">
+<link rel="stylesheet" href="{{STATIC_URL}}css/inc.css">
+
+
 <link "{{MEDIA_URL}}css/profesor/jquery.notice.css" type="text/css" media="screen" rel="stylesheet" />
 
 
@@ -61,15 +65,16 @@
 			</div>
 		</div>
 
-				<div class='spacer'></div> <!--Espacio de separacion-->
+				<!--<div class='spacer'></div> Espacio de separacion-->
+<div id="content">
 
-					<ul id="navegacion" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" style="display: block; position:static; margin-bottom: 5px; width: 180px; ">
+			<div class="menu-left">
 
+					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel" style="display: block; position:static; margin-bottom: 5px; width: 100%; ">
 
+						<li><a tabindex="-1" href="/profesor_main">Mi Horario</a></li>
+						<li class="divider"></li>
 
-
-			            <li><a href="/profesor_main">Mi Horario</a></li>
-			            <li class="divider"></li>
 			            <li class="dropdown-submenu">
 			              <a tabindex="-1" href="#">Calificar</a>
 			              <ul class="dropdown-menu">
@@ -78,13 +83,15 @@
 			              <li><a href="/profesor_registrar_calificaciones_extra">Extraordinaria</a></li>
 			              {% if es_coordinador > 0 %}
 			              	<li><a href="/profesor_registrar_calificaciones_ets">ETS</a></li>
+			              	<li><a href="/profesor_registrar_calificaciones_saberes">SaberesPrevios</a></li>
 			              {% endif %}
 			              </ul>
 			            </li>
-			            <li class="divider"></li>
+					  <li class="divider"></li>
 
-			          <li><a href="/directorio">Directorio</a></li>
-			          <li class="divider"></li>
+			          <li><a tabindex="-1" href="/directorio">Directorio</a></li>
+						<li class="divider"></li>
+
 				        <li class="dropdown-submenu">
 				             <a tabindex="-1" href="#">Reportes</a>
 				              <ul class="dropdown-menu">
@@ -94,10 +101,13 @@
 				              </ul>
 				         </li>
 				         <li class="divider"></li>
-			            <li><a href="/profesor_calendario">Calendario</a></li>
-			            <li class="divider"></li>
-			            <li><a href="/profesor_tutorias">Tutorías</a></li>
-			            <li class="divider"></li>
+
+			            <li><a tabindex="-1" href="/profesor_calendario">Calendario</a></li>
+						<li class="divider"></li>
+
+			            <li><a tabindex="-1" href="/profesor_tutorias">Tutorías</a></li>
+						<li class="divider"></li>
+
 			            {% if es_jefeDepto > 0 %}
 				        <li class="dropdown-submenu">
 				             <a tabindex="-1" href="#">Departamento</a>
@@ -125,22 +135,22 @@
 			           
 
       				</ul>
-      	
+      	</div>
 
-
-
-		<div id="content"> <!--Panel de contenido-->
+		<div class="content-principal-profesores">
 			{% block contenido %}{% endblock %}
 		</div>
+    </div>
+	 <!--Cierra contenedor principal-->
 
 		<div class='spacer'></div> <!--Especio de separacion-->
 		
-		<div id="footer">
+		<div id="footer_profesor">
 			<p>2013 Escuela Superior de Cómputo<a href="">Ayuda</a></p>
 		</div>
 
-
-	</div>	 <!--Cierra contenedor principal-->
+</div>
+	
 
 
 </body>

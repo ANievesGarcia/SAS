@@ -53,10 +53,17 @@ urlpatterns = patterns('',
 	url(r'^jefe_depto_guarda_coordinacion/$', 'principal.views.jefe_depto_guarda_coordinacion'),
 	url(r'^equipoLaboratorio/$', 'principal.views.equipoLaboratorio'),
 	url(r'^modificarEquipo/$', 'principal.views.modificarEquipo'),
+	url(r'^profesor_registrar_calificaciones_saberes/$', 'principal.views.profesor_registrar_calificaciones_saberes'),
+	url(r'^profesor_ingresa_calificacion_saberes/$', 'principal.views.profesor_ingresa_calificacion_saberes'),
+	url(r'^profesor_guarda_calificacionSaberes/$', 'principal.views.profesor_guarda_calificacionSaberes'),
+	
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	url(r'^admin/', include(admin.site.urls)),
 	url(r'media/(?P<path>.*)', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
   	url(r'static/(?P<path>.*)', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
+
+  	#ALUMNO
+  	url(r'^alumno/', include('principal.Alumno.urls')),
 )
 
 
