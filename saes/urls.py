@@ -56,6 +56,8 @@ urlpatterns = patterns('',
 	url(r'^profesor_registrar_calificaciones_saberes/$', 'principal.views.profesor_registrar_calificaciones_saberes'),
 	url(r'^profesor_ingresa_calificacion_saberes/$', 'principal.views.profesor_ingresa_calificacion_saberes'),
 	url(r'^profesor_guarda_calificacionSaberes/$', 'principal.views.profesor_guarda_calificacionSaberes'),
+	url(r'^cambiar_contrasena/$', 'principal.views.cambiar_contrasena'),
+	url(r'^cambiarPass/$', 'principal.views.cambiarPass'),
 	
 	url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
 	url(r'^admin/', include(admin.site.urls)),
