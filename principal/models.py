@@ -103,6 +103,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 class Salon(models.Model):
     cve_salon = models.IntegerField(unique=True, db_index=True) #primary_key=True
+    bandera = models.IntegerField(default=0)
    
     def __unicode__(self):
         return str(self.cve_salon)
@@ -373,3 +374,19 @@ class Equipos(models.Model):
     laboratorio=models.ForeignKey('Laboratorio')
     def __str__(self):
         return '%s %s %s' % (self.nombreEquipo,self.numero_serie,self.laboratorio)
+
+#*********************CALENDARIOS*********************************
+
+class calendarios(models.Model):
+        clave = models.CharField(max_length=10, unique=True, db_index=True)
+        inicperiodo=models.DateField(blank=True,null=True)
+        finperiodo=models.DateField(blank=True,null=True)
+        periodo=models.CharField(max_length=6,null=True)
+        inicinscr=models.DateField(blank=True,null=True)
+        fininscr=models.DateField(blank=True,null=True)
+        inicord=models.DateField(blank=True,null=True)
+        finord=models.DateField(blank=True,null=True)
+        inicextra=models.DateField(blank=True,null=True)
+        finextra=models.DateField(blank=True,null=True)
+        inicetes=models.DateField(blank=True,null=True)
+        finets=models.DateField(blank=True,null=True)

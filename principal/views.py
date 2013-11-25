@@ -12,6 +12,8 @@ from forms import *
 from models import *
 from django.views.decorators.csrf import csrf_exempt
 from datetime import datetime
+from datetime import date
+
 import json
 
 
@@ -39,6 +41,8 @@ def inicio(request):
             return HttpResponseRedirect("alumno/alumnoInicio")
         elif usuario.clasificacion ==  'Profesores':
             return HttpResponseRedirect("profesor_main/")
+        elif usuario.clasificacion ==  'Empleado_escolar':
+            return HttpResponseRedirect("control/control_main")
 
     if request.method == "POST":
         formulario = InicioForm(request.POST)
@@ -169,6 +173,49 @@ def profesor_main(request):
         es_coordinador=Materia.objects.filter(coordinador__cve_usuario=atributos_profesor.cve_usuario).count()
         es_jefeDepto=JefeDepartamento.objects.filter(cve_prof__cve_usuario=atributos_profesor.cve_usuario).count()
         es_laboratorista=Laboratorio.objects.filter(encargado__cve_usuario=atributos_profesor.cve_usuario).count()
+        hoy=date.today()
+        f=calendarios.objects.all()
+        for i in f:
+            inicio_ets=i.inicetes
+            fin_ets=i.finets 
+            inicio_extra=i.inicextra
+            fin_extra=i.finextra
+            inicio_ordinario=i.inicord
+            fin_ordinario=i.finord
+            inicio_saberes=i.inicperiodo
+
+        if(hoy >= inicio_ets and hoy <= fin_ets):
+            #fechas de ets
+            ets=1;
+        else:
+            ets=0;
+
+
+        if(hoy >= inicio_extra and hoy <= fin_extra):
+            #fechas de extra
+            extra=1;
+        else:
+            extra=0;
+
+        if(hoy >= inicio_ordinario and hoy <= fin_ordinario):
+            #fechas de ordinario
+            ordinaria=1;
+        else:
+            ordinaria=0;
+
+        if(hoy >= inicio_saberes and hoy <= inicio_ordinario):
+            #fechas de saberes previos
+            saberes=1;
+        else:
+            saberes=0;
+
+        print "FEchas---------------"
+        print ets
+        print extra
+        print ordinaria
+
+
+
         return render(request, 'profesor/main.html',locals(),context_instance=RequestContext(request))
     except:
         mensaje=1

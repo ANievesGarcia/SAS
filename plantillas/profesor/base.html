@@ -74,20 +74,28 @@
 
 						<li><a tabindex="-1" href="/profesor_main">Mi Horario</a></li>
 						<li class="divider"></li>
-
+						{% if extra == 1 or ordinaria == 1 or ets == 1 or saberes == 1 %}
 			            <li class="dropdown-submenu">
 			              <a tabindex="-1" href="#">Calificar</a>
 			              <ul class="dropdown-menu">
-
+						  {% if ordinaria == 1 %}
 			              <li><a href="/profesor_registrar_calificaciones">Ordinaria</a></li>
+			              {% endif %}
+			              {% if extra == 1 %}
 			              <li><a href="/profesor_registrar_calificaciones_extra">Extraordinaria</a></li>
+			              {% endif %}
 			              {% if es_coordinador > 0 %}
+			              {% if ets == 1 %}
 			              	<li><a href="/profesor_registrar_calificaciones_ets">ETS</a></li>
+			              {% endif %}
+			              {% if saberes == 1 %}
 			              	<li><a href="/profesor_registrar_calificaciones_saberes">SaberesPrevios</a></li>
 			              {% endif %}
+			            {% endif %}
 			              </ul>
 			            </li>
 					  <li class="divider"></li>
+					 {% endif %}
 
 			          <li><a tabindex="-1" href="/directorio">Directorio</a></li>
 						<li class="divider"></li>

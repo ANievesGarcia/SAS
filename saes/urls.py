@@ -66,7 +66,9 @@ urlpatterns = patterns('',
 
   	#ALUMNO
   	url(r'^alumno/', include('principal.Alumno.urls')),
-)
+   	url(r'^control/', include('principal.control.urls')),
+
+)	#CONTROL
 
 
 #http://127.0.0.1:8000/media/recetas/
