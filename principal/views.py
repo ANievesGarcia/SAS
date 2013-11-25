@@ -749,6 +749,10 @@ def recuperar_contrasena(request):
                 print "************3"
                 mensaje=3 #Mensaje enviado
                 return render_to_response('recuperar_pass.html',locals(), context_instance=RequestContext(request))
+            else:
+                mensaje=4 #Mensaje de error de formulario
+                return render_to_response('recuperar_pass.html',locals(), context_instance=RequestContext(request))
+
         except:
                 mensaje=2 #Mensaje de error de conexion
                 return render_to_response('recuperar_pass.html',locals(), context_instance=RequestContext(request))
